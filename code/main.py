@@ -7,12 +7,26 @@ Created on Mon Nov 06 14:44:07 2017
 
 import cv2
 import videoCapture
+import webcamCapture
 import faceDetector
 import numpy as np
+import argparse
 
 if __name__ == '__main__':
     
-    cap = videoCapture.Capture('testdata/hap001.avi')
+    parser = argparse.ArgumentParser(description='Process some parameters.')
+    
+    parser.add_argument('--webcam', action='store_true', default=True)
+    
+    args = parser.parse_args()
+    
+    if args.webcam:
+        
+        cap = webcamCapture.Capture()
+        
+    else:
+        
+        cap = videoCapture.Capture('testdata/hap001.avi')
     
     mtcnn = faceDetector.MTCNN()
     
@@ -28,17 +42,22 @@ if __name__ == '__main__':
         
         cv2.imshow('1', frame)
         
-        cv2.waitKey(1)
+#        cv2.waitKey(1)
         
         cv2.imshow('2', new_frame)
         
-        cv2.waitKey(-1)
+        key = cv2.waitKey(50)
+        
+        if 27==key:
+            
+            break
                         
         ret, frame = cap.get_frame()
         
-        break
+#        break
     
     cv2.destroyAllWindows()
     
+    del cap
     
     
