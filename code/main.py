@@ -28,7 +28,7 @@ if __name__ == '__main__':
         
         cap = videoCapture.Capture('testdata/hap001.avi')
     
-    mtcnn = faceDetector.MTCNN()
+    mtcnn = faceDetector.MTCNN(minsize=50)
     
     ret, frame = cap.get_frame()
     
