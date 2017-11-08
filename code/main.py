@@ -11,6 +11,7 @@ import webcamCapture
 import faceDetector
 import numpy as np
 import argparse
+import time
 
 if __name__ == '__main__':
     
@@ -36,13 +37,17 @@ if __name__ == '__main__':
         
         img_rgb = cv2.cvtColor(np.copy(frame), cv2.COLOR_BGR2RGB)
         
+        tim1 = time.time()
+        
         bounding_boxes, landmarks = mtcnn.detect_face(img_rgb)
         
         new_frame = mtcnn.draw_bounding_box(frame, bounding_boxes)
         
-        cv2.imshow('1', frame)
+        tim2 = time.time()
         
-#        cv2.waitKey(1)
+        print('FPS = {}'.format( 1.0/(tim2-tim1) ))
+        
+        cv2.imshow('1', frame)
         
         cv2.imshow('2', new_frame)
         
