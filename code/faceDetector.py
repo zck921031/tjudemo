@@ -100,6 +100,47 @@ class MTCNN():
         
         return frame
     
+    def crop_faces(self, img, bounding_boxes, margin_percent=0.1, landmarks=None, debug=False):
+        
+        video_height, video_width = img.shape[:2]
+        
+        faces = []
+        
+        for bb in np.array(bounding_boxes, np.int32):
+        
+            weight = bb[2] - bb[0]
+            
+            height = bb[3] - bb[1]
+            
+            left  = int(bb[0] - margin_percent * weight)
+            
+            up    = int(bb[1] - margin_percent * height)
+            
+            right = int(bb[2] + margin_percent * weight)
+            
+            down  = int(bb[3] + margin_percent * height)
+            
+            left  = int(max(left, 0))
+            
+            up    = int(max(up, 0))
+            
+            right = int(min(right, video_width))
+            
+            down  = int(min(down, video_height))       
+            
+            crop_face = img[up:down, left:right, :]
+            
+            if debug:
+                
+                plt.imshow(np.uint8(crop_face))
+            
+                plt.show()
+            
+            faces.append(crop_face)
+            
+        return faces
+    
+    
 if __name__ == '__main__':
     
     from scipy import misc
