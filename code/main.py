@@ -56,6 +56,15 @@ def draw_emotion_radar(data):
     return img
     
 #    plt.show()
+
+class Screen():
+    
+    def __init__(self, basic):
+        
+        self.img = np.zeros((basic.shape[0], basic.shape[1], basic.shape[2]))
+        
+        self.img[:basic.shape[0], :basic.shape[1], :basic.shape[2]] = basic
+        
     
     
 if __name__ == '__main__':
@@ -95,6 +104,8 @@ if __name__ == '__main__':
         bounding_boxes, landmarks = mtcnn.detect_face(img_rgb)
         
         new_frame = mtcnn.draw_bounding_box(frame, bounding_boxes)
+        
+        screen = Screen(frame)
         
         if len(bounding_boxes)>0:
         
